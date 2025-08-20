@@ -7,6 +7,8 @@ import Body from "./layouts/Body/Body.jsx";
 import Header from "./components/Header/Header.jsx";
 import JournalList from "./components/JournalList/JournalList.jsx";
 import JournalAddButton from "./components/JournalAddButton/JournalAddButton.jsx";
+import {useState} from "react";
+import JournalForm from "./components/JournalForm/JournalForm.jsx";
 
 function App() {
     const data = [
@@ -22,9 +24,7 @@ function App() {
         },
 
     ];
-    const InputChange=(event)=>{
-        console.log(event.target.value);
-    };
+
     return (
         <div className="App">
           <LeftPanel>
@@ -48,17 +48,9 @@ function App() {
           </JournalList>
           </LeftPanel>
         <Body>
-            <input type={"text"} onChange={InputChange}/>
-            <Button/>
+            <JournalForm/>
         </Body>
-
-
-
-
-
-
         </div>
     )
 }
-
 export default App
