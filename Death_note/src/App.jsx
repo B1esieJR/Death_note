@@ -9,21 +9,26 @@ import JournalList from "./components/JournalList/JournalList.jsx";
 import JournalAddButton from "./components/JournalAddButton/JournalAddButton.jsx";
 import {useState} from "react";
 import JournalForm from "./components/JournalForm/JournalForm.jsx";
-
+import {v4 as uuidv4} from "uuid";
 function App() {
-    const data = [
-        {
-            title: 'Подготовка к обновлению курсов',
-            text: 'Ты пил сок из моих носок',
-            date: new Date(),
-        },
-        {
-            title: 'Похом в горы',
-            text: 'Текст сейчас яне придумау',
-            date: new Date(),
-        },
+    const [items, setItems] = useState([]);
+    const handleAddItems = (item)=>{
+       setItems(prevItems=>[...prevItems,{
+           id: uuidv4(),
+           text:item.text,
+           title:item.title,
+           date:new Date(item.date),
+       }]);
+    }
+    const sortItems = (a,b)=>{
+        if(a.date < b.date){
+            return 1;
+        }
+        else {
+            return -1;
+        }
+    }
 
-    ];
 
     return (
         <div className="App">
@@ -31,24 +36,22 @@ function App() {
           <Header/>
           <JournalAddButton/>
           <JournalList>
-              <CardButton>
-                  <JornalItem
-                      title={data[0].title}
-                      text={data[0].text}
-                      date={data[0].date}
-                  />
-              </CardButton>
-              <CardButton>
-                  <JornalItem
-                      title={data[1].title}
-                      text={data[1].text}
-                      date={data[1].date}
-                  />
-              </CardButton>
+              {items.sort(sortItems).map(element => (
+                  <CardButton key={uuidv4()}>
+                      <JornalItem
+                          id={element.id}
+                          title={element.title}
+                          text={element.text}
+                          date={element.date}
+                      />
+                  </CardButton>
+                  ))}
+
+
           </JournalList>
           </LeftPanel>
         <Body>
-            <JournalForm/>
+            <JournalForm onAddItem={handleAddItems}/>
         </Body>
         </div>
     )
